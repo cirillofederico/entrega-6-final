@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>eMercado - Todo lo que busques está aquí</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/cart.css">
+  <link rel="shortcut icon" href="img/favicon.png">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav w-100 justify-content-between">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="categories.html">Categorías</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sell.html">Vender</a>
+          </li>
+          <li class="nav-item">
+            <i id="moonIcon" class="fas fa-moon"></i>
+          </li>
+          <li class="nav-item">
+            <div class="menu-container" style="position: absolute;">
+              <button class="navbar-nav w-100 justify-content-between" id="perfil-button">Mi cuenta</button>
+              <div id="perfil-menu" class="menu">
+                <a href="cart.html">Mi carrito</a>
+                <a href="my-profile.html">Mi perfil</a>
+                <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <div class="overlay" id="overlay">
+      <div class="overlay-content">
+        <h2>COMPRA EXITOSA!</h2>
+        <p>Tu compra se ha realizado con éxito.</p>
+      </div>
+    </div>
+
+    <div class="container mt-5">
+      <h2 class="display-5 text-center mb-4">Carrito de Compras</h2>
+      <h3 class="blockquote"> Artículos a comprar</h3>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="col-1"></th>
+                  <th scope="col" class="text-primary col-3 ">Nombre</th>
+                  <th scope="col" class="text-primary col-2 ">Costo</th>
+                  <th scope="col" class="text-primary col-1">Cantidad</th>
+                  <th scope="col" class="text-primary col-2">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="cart-products">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="pb-4">
+        <p> ¿Te quedó algo por agregar? <a href="categories.html">Seguir comprando</a></p>
+        <!-- Link que lleva a categorías para agregar algo extra al carrito-->
+      </div>
+      <div>
+        <form> <!-- formulario que abarca (por ahora) el tipo de envío y dirección -->
+
+          <h3 class="blockquote">Tipo de envío</h3>
+          <div class="m-4 form-check"> <!-- Creamos inputs tipo "radio" para seleccionar una opción de envío -->
+            <div class="mb-3 form-check">
+              <input type="radio" class="form-check-input" id="premium" name="shippingType" value="premium">
+              <label for="premium" class="form-check-label">Superior (de 2 a 5 días y 15% de recargo)</label>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="radio" class="form-check-input" id="express" name="shippingType" value="express">
+              <label for="express" class="form-check-label">Rápido (de 7 a 10 días y 7% de recargo)</label>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="radio" class="form-check-input" id="standard" name="shippingType" value="standard" checked>
+              <label class="form-check-label" for="standard">Básico (de 12 a 15 días y 5% de recargo)</label>
+            </div>
+          </div>
+
+          <h3 class="blockquote pt-4">Dirección de envio</h3>
+
+
+          <div class="row row-cols-lg-6 row-cols-md-4"> <!-- Creamos inputs para completar la dirección -->
+            <div class="d-inline-flex">
+              <label for="streetAddress" class="form-label pe-2 align-self-center">Calle </label>
+              <input type="text" value="" class="form-control" id="streetAddress" name="streetAddress">
+            </div>
+            <div class="d-inline-flex ">
+              <label for="numberAddress" class="form-label p-2 align-self-center">Número</label>
+              <input type="number" class="form-control" id="numberAddress" name="numberAddress">
+            </div>
+            <div class="d-inline-flex">
+              <label for="cornerAddress" class="form-label p-2 align-self-center">Esquina</label>
+              <input type="text" class="form-control" id="cornerAddress" name="cornerAddress">
+            </div>
+            <div class="d-inline-flex">
+              <label for="comments" class="form-label pe-2 align-self-center">Comentarios</label>
+              <input type="text" class="form-control col-12" id="comments" name="comments"
+                placeholder="'Puerta marrón', 'bloque N°5'">
+            </div>
+          </div><br>
+
+          <div id="resumen-compra" class="mt-4">
+            <h3 class="blockquote">Resumen de la Compra</h3>
+            <p>Subtotal: <span id="subtotal">0 USD</span></p>
+            <p>Costo de Envío: <span id="costo-envio">0 USD</span></p>
+            <p>Total a Pagar: <span id="total-pagar">0 USD</span></p>
+          </div>
+
+
+
+          <!-- Inicio de modal para metodo de pago 23/10/23 Entrega6-->
+          <div class="bg-light">
+            <h3>Forma de pago:</h3><br>
+
+            <div class="d-flex d-inline-flex">
+              <h6>No ha seleccionado</h6> <button type="button" class="btn btn-link ps-0 ms-3" data-bs-toggle="modal"
+                data-bs-target="#modalMediosPago" required>Seleccionar
+              </button>
+            </div>
+          </div>
+
+          <div class="modal" id="modalMediosPago" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Forma de pago:</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      <h5>Tarjeta de Crédito</h5>
+                    </label><br>
+
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-6 mt-2"><label for="creditCard" class="form-label">Número de tarjeta</label>
+                          <input type="text" class="form-control" id="creditCard" placeholder=""
+                            required>
+                          <div class="invalid-feedback">
+                            Se requiere número de tarjeta de crédito
+                          </div>
+                        </div>
+
+                        <div class="col-md-3 mt-2"><label for="creditCard" class="form-label">CVV</label>
+                          <input type="text" class="form-control" id="creditCardCVV" placeholder=""
+                            required>
+                          <div class="invalid-feedback">
+                            Se requiere el CVV de su tarjeta
+                          </div>
+                        </div>
+
+                        <div class="col-md-6"><label for="creditCard"
+                            class="form-label mt-2">Vencimiento
+                            (Mes/Año)</label>
+                          <input type="text" class="form-control" id="creditCardDate" placeholder="" required>
+                          <div class="invalid-feedback">
+                            Se requiere el mes de vencimiento
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="form-check mt-3">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      <h5>Transferencia Bancaria</h5>
+                    </label>
+
+                    <div class="col-md-6 mt-2"><label for="creditCard" class="form-label">Número de cuenta</label>
+                      <input type="text" class="form-control" id="cuentaBancaria" placeholder="" required>
+                      <div class="invalid-feedback">
+                        Se requiere su número de cuenta bancaria
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Guardar cambios</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin de modal para metodo de pago 23/10/23 Entrega6 -->
+
+          <input class="btn btn-primary d-block" type="button" name="send" value="Comprar" id="mostrarOverlay">
+          <!-- Botón que envía el form -->
+
+        </form>
+
+      </div>
+    </div>
+
+
+  </main>
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-end">
+        <a href="#">Volver arriba</a>
+      </p>
+      <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a>
+      </p>
+    </div>
+  </footer>
+  <div id="spinner-wrapper">
+    <div class="lds-ring">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+
+</html>
